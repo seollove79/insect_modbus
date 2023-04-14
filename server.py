@@ -43,7 +43,7 @@ if __name__ == '__main__':
     # parse args
     parser = argparse.ArgumentParser()
     parser.add_argument('-H', '--host', type=str, default='192.168.0.62', help='Host (default: localhost)')
-    parser.add_argument('-p', '--port', type=int, default=502, help='TCP port (default: 502)')
+    parser.add_argument('-p', '--port', type=int, default=2502, help='TCP port (default: 2502)')
     args = parser.parse_args()
     # init modbus server and start it
     server = ModbusServer(host=args.host, port=args.port, data_bank=MyDataBank())
