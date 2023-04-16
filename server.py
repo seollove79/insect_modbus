@@ -1,7 +1,7 @@
 import argparse
 from pyModbusTCP.server import ModbusServer, DataBank
 from datetime import datetime
-import Controller
+from Controller import Controller
 import threading
 import time
 
