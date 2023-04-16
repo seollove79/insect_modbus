@@ -1,6 +1,9 @@
 import argparse
 from pyModbusTCP.server import ModbusServer, DataBank
 from datetime import datetime
+import Controller
+import threading
+import time
 
 class MyDataBank(DataBank):
     """A custom ModbusServerDataBank for override get_holding_registers method."""
@@ -36,9 +39,10 @@ class MyDataBank(DataBank):
         
     def set_holding_registers(self, address, word_list, srv_info=None):
         for idx,item in enumerate(word_list):
-            self.sensor_data.update({address+idx:item})
+            target_address = address + idx
+            self.sensor_data.update({target_address:item})
         return True
-
+    
 if __name__ == '__main__':
     # parse args
     parser = argparse.ArgumentParser()
@@ -46,5 +50,38 @@ if __name__ == '__main__':
     parser.add_argument('-p', '--port', type=int, default=2502, help='TCP port (default: 2502)')
     args = parser.parse_args()
     # init modbus server and start it
-    server = ModbusServer(host=args.host, port=args.port, data_bank=MyDataBank())
+    myDataBank = MyDataBank()
+    server = ModbusServer(host=args.host, port=args.port, data_bank=myDataBank)
+    controller = Controller.Controller()
+    controller.start_reading()
+    
+    def writethread():
+        while True :
+            #장치의 제어값 만들기
+            controlValue01 = '@,1,' + changeNumber(myDataBank.sensor_data[7]) + ',' + changeNumber(myDataBank.sensor_data[8])  + ',' + changeNumber(myDataBank.sensor_data[9]) + ',' + changeNumber(myDataBank.sensor_data[10]) + '\r\n'
+            controlValue02 = '@,2,' + changeNumber(myDataBank.sensor_data[27]) + ',' + changeNumber(myDataBank.sensor_data[28])  + ',' + changeNumber(myDataBank.sensor_data[29]) + ',' + changeNumber(myDataBank.sensor_data[30]) + '\r\n'
+            controlValue03 = '@,3,' + changeNumber(myDataBank.sensor_data[47]) + ',' + changeNumber(myDataBank.sensor_data[48])  + ',' + changeNumber(myDataBank.sensor_data[49]) + ',' + changeNumber(myDataBank.sensor_data[50]) + '\r\n'
+        
+            #장치의 제어값 보드에 쓰기
+            controller.writeControlValue(controlValue01)
+            controller.writeControlValue(controlValue02)
+            controller.writeControlValue(controlValue03)
+
+            time.sleep(3)
+
+            myDataBank.sensor_data.update(controller.data1)
+            myDataBank.sensor_data.update(controller.data2)
+            myDataBank.sensor_data.update(controller.data3)
+
+    def changeNumber(numberValue):
+        returnNumberStr = ""
+        length = len(str(numberValue))
+        for i in range (4-length) :
+            returnNumberStr += '0'
+        returnNumberStr += str(numberValue)
+        return returnNumberStr
+
+    t = threading.Thread(target=writethread)
+    t.start()
+
     server.start()
