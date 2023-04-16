@@ -26,6 +26,7 @@ class Controller():
                             count=count+1
 
                     if (count==33):
+                        print(count)
                         for i in range(1,4) :
                             for j in range(0,11) :
                                 if i==1 :
