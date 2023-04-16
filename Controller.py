@@ -17,8 +17,9 @@ class Controller():
             result = self.serial_port.readline()
             if len(result)>0 :
                 valueArray = str(result).split(',')
-                print(valueArray)
                 if len(valueArray)>=34 :
+
+                    print ("valueArray : " + str(valueArray))
 
                     #데이터에 문제가 없을때만
                     count = 0
@@ -27,7 +28,7 @@ class Controller():
                             count=count+1
 
                     if (count==33):
-                        print(count)
+
                         for i in range(1,4) :
                             for j in range(0,11) :
                                 if i==1 :
@@ -37,7 +38,6 @@ class Controller():
                                 if i==3 :
                                     self.data3.update({j+40:int(valueArray[j+23])})
 
-            print(self.data1)
             time.sleep(3)
 
     def writeControlValue(self,data):
