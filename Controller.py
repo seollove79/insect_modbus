@@ -3,11 +3,10 @@ import threading
 import time
 
 class Controller():
-
     data1={}
     data2={}
     data3={}
-    port ="com8"
+    port ="ttyUSB0"
     baud = 19200
     serial_port = None
     alivethread = True
@@ -16,25 +15,26 @@ class Controller():
     def readthread(self):
         while(self.alivethread):
             result = self.serial_port.readline()
-
             if len(result)>0 :
                 valueArray = str(result).split(',')
-                print("넘어온 데이터 수 : " + str(len(valueArray)))
-
                 if len(valueArray)>=34 :
-                    for i in range(1,4) :
-                        for j in range(0,11) :
-                            if i==1 :
-                                self.data1.update({j:valueArray[j+1]})
-                            if i==2 :
-                                self.data2.update({j+20:valueArray[j+12]})
-                            if i==3 :
-                                self.data3.update({j+40:valueArray[j+23]})
 
-                    print("data1 : " + str(self.data1) + "\r\n")
-                    print("data2 : " + str(self.data2) + "\r\n")
-                    print("data3 : " + str(self.data3) + "\r\n")
-                    
+                    #데이터에 문제가 없을때만
+                    count = 0
+                    for k in range(1,34):
+                        if valueArray[k].isdigit():
+                            count=count+1
+
+                    if (count==33):
+                        for i in range(1,4) :
+                            for j in range(0,11) :
+                                if i==1 :
+                                    self.data1.update({j:int(valueArray[j+1])})
+                                if i==2 :
+                                    self.data2.update({j+20:int(valueArray[j+12])})
+                                if i==3 :
+                                    self.data3.update({j+40:int(valueArray[j+23])})
+            time.sleep(3)
 
     def writeControlValue(self,data):
         self.serial_port.write(data.encode('utf-8'))

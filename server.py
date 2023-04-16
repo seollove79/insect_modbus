@@ -8,6 +8,8 @@ import time
 class MyDataBank(DataBank):
     """A custom ModbusServerDataBank for override get_holding_registers method."""
 
+    sensor_data = {}
+
     def __init__(self):
         # turn off allocation of memory for standard modbus object types
         # only "holding registers" space will be replaced by dynamic build values.
@@ -31,7 +33,6 @@ class MyDataBank(DataBank):
         # build a list of virtual regs to return to server data handler
         # return None if any of virtual registers is missing
         v_regs_d = self.sensor_data
-
         try:
             return [v_regs_d[a] for a in range(address, address+number)]
         except KeyError:
@@ -61,7 +62,11 @@ if __name__ == '__main__':
             controlValue01 = '@,1,' + changeNumber(myDataBank.sensor_data[7]) + ',' + changeNumber(myDataBank.sensor_data[8])  + ',' + changeNumber(myDataBank.sensor_data[9]) + ',' + changeNumber(myDataBank.sensor_data[10]) + '\r\n'
             controlValue02 = '@,2,' + changeNumber(myDataBank.sensor_data[27]) + ',' + changeNumber(myDataBank.sensor_data[28])  + ',' + changeNumber(myDataBank.sensor_data[29]) + ',' + changeNumber(myDataBank.sensor_data[30]) + '\r\n'
             controlValue03 = '@,3,' + changeNumber(myDataBank.sensor_data[47]) + ',' + changeNumber(myDataBank.sensor_data[48])  + ',' + changeNumber(myDataBank.sensor_data[49]) + ',' + changeNumber(myDataBank.sensor_data[50]) + '\r\n'
-        
+
+            myDataBank.sensor_data.update(controller.data1)
+            myDataBank.sensor_data.update(controller.data2)
+            myDataBank.sensor_data.update(controller.data3)
+
             #장치의 제어값 보드에 쓰기
             controller.writeControlValue(controlValue01)
             controller.writeControlValue(controlValue02)
@@ -69,9 +74,7 @@ if __name__ == '__main__':
 
             time.sleep(3)
 
-            myDataBank.sensor_data.update(controller.data1)
-            myDataBank.sensor_data.update(controller.data2)
-            myDataBank.sensor_data.update(controller.data3)
+            
 
     def changeNumber(numberValue):
         returnNumberStr = ""
