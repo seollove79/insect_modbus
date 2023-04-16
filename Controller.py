@@ -19,13 +19,13 @@ class Controller():
                 valueArray = str(result).split(',')
                 if len(valueArray)>=34 :
 
-                    print ("valueArray : " + str(valueArray))
-
                     #데이터에 문제가 없을때만
                     count = 0
                     for k in range(1,34):
                         if valueArray[k].isdigit():
                             count=count+1
+
+                    print("count:" + count)
 
                     if (count==33):
 
