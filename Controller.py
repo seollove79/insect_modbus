@@ -15,6 +15,7 @@ class Controller():
     def readthread(self):
         while(self.alivethread):
             result = self.serial_port.readline()
+            print(result)
             if len(result)>0 :
                 valueArray = str(result).split(',')
                 if len(valueArray)>=34 :
