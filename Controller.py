@@ -6,7 +6,7 @@ class Controller():
     data1={}
     data2={}
     data3={}
-    port ="ttyUSB0"
+    port ="/dev/ttyUSB0"
     baud = 19200
     serial_port = None
     alivethread = True
