@@ -15,9 +15,9 @@ class Controller():
     def readthread(self):
         while(self.alivethread):
             result = self.serial_port.readline()
-            print(result)
             if len(result)>0 :
                 valueArray = str(result).split(',')
+                print(valueArray)
                 if len(valueArray)>=34 :
 
                     #데이터에 문제가 없을때만

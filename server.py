@@ -69,9 +69,10 @@ if __name__ == '__main__':
 
             #장치의 제어값 보드에 쓰기
             controller.writeControlValue(controlValue01)
+            time.sleep(1)
             controller.writeControlValue(controlValue02)
+            time.sleep(1)
             controller.writeControlValue(controlValue03)
-
             time.sleep(3)
 
             
