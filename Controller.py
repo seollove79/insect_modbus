@@ -34,6 +34,8 @@ class Controller():
                                     self.data2.update({j+20:int(valueArray[j+12])})
                                 if i==3 :
                                     self.data3.update({j+40:int(valueArray[j+23])})
+
+            print(self.data1)
             time.sleep(3)
 
     def writeControlValue(self,data):
