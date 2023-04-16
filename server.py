@@ -53,7 +53,7 @@ if __name__ == '__main__':
     # init modbus server and start it
     myDataBank = MyDataBank()
     server = ModbusServer(host=args.host, port=args.port, data_bank=myDataBank)
-    controller = Controller.Controller()
+    controller = Controller()
     controller.start_reading()
     
     def writethread():
