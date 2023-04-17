@@ -25,7 +25,7 @@ class Controller():
                     for k in range(1,34):
                         if valueArray[k].isdigit():
                             count=count+1
-
+                    print(valueArray)
                     print("count:" + str(count))
 
                     if (count==33):

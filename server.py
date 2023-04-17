@@ -75,11 +75,12 @@ if __name__ == '__main__':
             if myDataBank.write_check == 1:
                 controller.writeControlValue(controlValue01)
                 time.sleep(1)
-                controller.writeControlValue(controlValue01)
+                controller.writeControlValue(controlValue02)
                 time.sleep(1)
-                controller.writeControlValue(controlValue01)
+                controller.writeControlValue(controlValue03)
                 time.sleep(1)
                 myDataBank.write_check = 0
+                print("보냈음")
 
 
     def changeNumber(numberValue):
