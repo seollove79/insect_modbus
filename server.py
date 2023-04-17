@@ -9,6 +9,7 @@ class MyDataBank(DataBank):
     """A custom ModbusServerDataBank for override get_holding_registers method."""
 
     sensor_data = {}
+    write_check = 0
 
     def __init__(self):
         # turn off allocation of memory for standard modbus object types
@@ -42,6 +43,7 @@ class MyDataBank(DataBank):
         for idx,item in enumerate(word_list):
             target_address = address + idx
             self.sensor_data.update({target_address:item})
+        self.write_check = 1
         return True
     
 if __name__ == '__main__':
@@ -68,14 +70,17 @@ if __name__ == '__main__':
             myDataBank.sensor_data.update(controller.data3)
 
             #장치의 제어값 보드에 쓰기
-            controller.writeControlValue(controlValue01)
-            time.sleep(1)
-            controller.writeControlValue(controlValue02)
-            time.sleep(1)
-            controller.writeControlValue(controlValue03)
+            controller.writeControlValue("!,0,1\r\n")
             time.sleep(3)
+            if myDataBank.write_check == 1:
+                controller.writeControlValue(controlValue01)
+                time.sleep(1)
+                controller.writeControlValue(controlValue01)
+                time.sleep(1)
+                controller.writeControlValue(controlValue01)
+                time.sleep(1)
+                myDataBank.write_check = 0
 
-            
 
     def changeNumber(numberValue):
         returnNumberStr = ""
