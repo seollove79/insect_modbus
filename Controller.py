@@ -6,8 +6,8 @@ class Controller():
     data1={}
     data2={}
     data3={}
-    #port ="/dev/ttyUSB0" #우분투일경우
-    port = "com1"
+    port ="/dev/ttyUSB0" #우분투일경우
+    #port = "com1"
     baud = 19200
     serial_port = None
     alivethread = True
