@@ -17,9 +17,9 @@ while True:
     # check = c.write_multiple_registers(47, [500,50,20,1])
     # print("쓰기상황 : " + str(check))
 
-    register_l = c.read_holding_registers(0, 11)
-    register_ll = c.read_holding_registers(20, 11)
-    register_lll = c.read_holding_registers(40, 11)
+    register_l = c.read_holding_registers(10, 11)
+    register_ll = c.read_holding_registers(30, 11)
+    register_lll = c.read_holding_registers(50, 11)
 
     # if success display registers
     if register_l:
