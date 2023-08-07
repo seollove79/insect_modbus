@@ -65,22 +65,28 @@ if __name__ == '__main__':
             controlValue02 = '@,2,' + changeNumber(myDataBank.sensor_data[37]) + ',' + changeNumber(myDataBank.sensor_data[38])  + ',' + changeNumber(myDataBank.sensor_data[39]) + ',' + changeNumber(myDataBank.sensor_data[40]) + '\r\n'
             controlValue03 = '@,3,' + changeNumber(myDataBank.sensor_data[57]) + ',' + changeNumber(myDataBank.sensor_data[58])  + ',' + changeNumber(myDataBank.sensor_data[59]) + ',' + changeNumber(myDataBank.sensor_data[60]) + '\r\n'
 
+            #장치의 제어값 보드에 쓰기
+            controller.writeControlValue("!,0,1\r\n")
+            if myDataBank.write_check == 1:
+                controller.writeControlValue(controlValue01)
+                controller.write_check = 1
+                time.sleep(1)
+                controller.writeControlValue(controlValue02)
+                controller.write_check = 1
+                time.sleep(1)
+                controller.writeControlValue(controlValue03)
+                controller.write_check = 1
+                time.sleep(1)
+                controller.write_check = 0
+                myDataBank.write_check = 0
+                print("보냈음")
+
             myDataBank.sensor_data.update(controller.data1)
             myDataBank.sensor_data.update(controller.data2)
             myDataBank.sensor_data.update(controller.data3)
 
-            #장치의 제어값 보드에 쓰기
-            controller.writeControlValue("!,0,1\r\n")
             time.sleep(3)
-            if myDataBank.write_check == 1:
-                controller.writeControlValue(controlValue01)
-                time.sleep(1)
-                controller.writeControlValue(controlValue02)
-                time.sleep(1)
-                controller.writeControlValue(controlValue03)
-                time.sleep(1)
-                myDataBank.write_check = 0
-                print("보냈음")
+
 
 
     def changeNumber(numberValue):
