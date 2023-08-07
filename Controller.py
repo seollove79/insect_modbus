@@ -12,7 +12,6 @@ class Controller():
     serial_port = None
     alivethread = True
     t = None
-    write_check = 0
 
     def readthread(self):
         while(self.alivethread):
@@ -40,7 +39,7 @@ class Controller():
                                 if i==3 :
                                     self.data3.update({j+50:int(valueArray[j+23])})
 
-            time.sleep(4)
+            time.sleep(3)
 
     def writeControlValue(self,data):
         self.serial_port.write(data.encode('utf-8'))
