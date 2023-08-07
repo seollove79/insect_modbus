@@ -80,6 +80,7 @@ if __name__ == '__main__':
                 time.sleep(1)
                 controller.writeControlValue(controlValue03)
                 time.sleep(1)
+                controller.write_check = 0
                 myDataBank.write_check = 0
                 print("보냈음")
 

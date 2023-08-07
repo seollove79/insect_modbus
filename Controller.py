@@ -46,7 +46,6 @@ class Controller():
 
     def writeControlValue(self,data):
         self.serial_port.write(data.encode('utf-8'))
-        self.write_check = 0
     
     def start_reading(self):
         self.t.start()
