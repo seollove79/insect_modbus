@@ -12,9 +12,9 @@ c = ModbusClient(host='localhost', port=2502, auto_open=True, debug=False)
 while True:
     # read 10 bits (= coils) at address 0, store result in coils list
 
-    check = c.write_multiple_registers(17, [500,50,20,1])
-    check = c.write_multiple_registers(37, [500,50,20,1])
-    check = c.write_multiple_registers(57, [500,50,20,1])
+    check = c.write_multiple_registers(17, [600,50,20,1])
+    check = c.write_multiple_registers(37, [600,50,20,1])
+    check = c.write_multiple_registers(57, [600,50,20,1])
     print("쓰기상황 : " + str(check))
 
     register_l = c.read_holding_registers(10, 11)
