@@ -10,7 +10,6 @@ class MyDataBank(DataBank):
 
     sensor_data = {}
     write_check = 0
-    read_check = 0
 
     def __init__(self):
         # turn off allocation of memory for standard modbus object types
@@ -35,7 +34,6 @@ class MyDataBank(DataBank):
         # build a list of virtual regs to return to server data handler
         # return None if any of virtual registers is missing
         v_regs_d = self.sensor_data
-        self.read_check = 1
         try:
             return [v_regs_d[a] for a in range(address, address+number)]
         except KeyError:
@@ -59,20 +57,13 @@ if __name__ == '__main__':
     server = ModbusServer(host=args.host, port=args.port, data_bank=myDataBank)
     controller = Controller()
     controller.start_reading()
-
-    def read_write_check_thread():
-        if (myDataBank.read_check == 1):
-            controller.read_enable = 1
-            myDataBank.read_check = 0
-        time.sleep(1)
     
     def writethread():
         while True :
-
             #장치의 제어값 만들기
-            controlValue01 = '@,1,' + changeNumber(myDataBank.sensor_data[17]) + ',' + changeNumber(myDataBank.sensor_data[18])  + ',' + changeNumber(myDataBank.sensor_data[19]) + ',' + changeNumber(myDataBank.sensor_data[20]) + '\r\n'
-            controlValue02 = '@,2,' + changeNumber(myDataBank.sensor_data[37]) + ',' + changeNumber(myDataBank.sensor_data[38])  + ',' + changeNumber(myDataBank.sensor_data[39]) + ',' + changeNumber(myDataBank.sensor_data[40]) + '\r\n'
-            controlValue03 = '@,3,' + changeNumber(myDataBank.sensor_data[57]) + ',' + changeNumber(myDataBank.sensor_data[58])  + ',' + changeNumber(myDataBank.sensor_data[59]) + ',' + changeNumber(myDataBank.sensor_data[60]) + '\r\n'
+            controlValue01 = '@,1,' + changeNumber(myDataBank.sensor_data[7]) + ',' + changeNumber(myDataBank.sensor_data[8])  + ',' + changeNumber(myDataBank.sensor_data[9]) + ',' + changeNumber(myDataBank.sensor_data[10]) + '\r\n'
+            controlValue02 = '@,2,' + changeNumber(myDataBank.sensor_data[27]) + ',' + changeNumber(myDataBank.sensor_data[28])  + ',' + changeNumber(myDataBank.sensor_data[29]) + ',' + changeNumber(myDataBank.sensor_data[30]) + '\r\n'
+            controlValue03 = '@,3,' + changeNumber(myDataBank.sensor_data[47]) + ',' + changeNumber(myDataBank.sensor_data[48])  + ',' + changeNumber(myDataBank.sensor_data[49]) + ',' + changeNumber(myDataBank.sensor_data[50]) + '\r\n'
 
             myDataBank.sensor_data.update(controller.data1)
             myDataBank.sensor_data.update(controller.data2)
@@ -102,7 +93,5 @@ if __name__ == '__main__':
 
     t = threading.Thread(target=writethread)
     t.start()
-    t1 = threading.Thread(target=read_write_check_thread)
-    t1.start()
 
     server.start()
