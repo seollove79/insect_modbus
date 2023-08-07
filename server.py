@@ -70,6 +70,10 @@ if __name__ == '__main__':
             time.sleep(3)
             if myDataBank.write_check == 1:
                 controller.write_check = 1
+                controlValue01 = '@,1,' + changeNumber(myDataBank.sensor_data[17]) + ',' + changeNumber(myDataBank.sensor_data[18])  + ',' + changeNumber(myDataBank.sensor_data[19]) + ',' + changeNumber(myDataBank.sensor_data[20]) + '\r\n'
+                controlValue02 = '@,2,' + changeNumber(myDataBank.sensor_data[37]) + ',' + changeNumber(myDataBank.sensor_data[38])  + ',' + changeNumber(myDataBank.sensor_data[39]) + ',' + changeNumber(myDataBank.sensor_data[40]) + '\r\n'
+                controlValue03 = '@,3,' + changeNumber(myDataBank.sensor_data[57]) + ',' + changeNumber(myDataBank.sensor_data[58])  + ',' + changeNumber(myDataBank.sensor_data[59]) + ',' + changeNumber(myDataBank.sensor_data[60]) + '\r\n'
+                
                 controller.writeControlValue(controlValue01)
                 time.sleep(1)
                 controller.writeControlValue(controlValue02)
