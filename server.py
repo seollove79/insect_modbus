@@ -60,8 +60,6 @@ if __name__ == '__main__':
     
     def writethread():
         while True :
-            if myDataBank.write_check == 1:
-                controller.no_read = 1
 
             #장치의 제어값 만들기
             controlValue01 = '@,1,' + changeNumber(myDataBank.sensor_data[17]) + ',' + changeNumber(myDataBank.sensor_data[18])  + ',' + changeNumber(myDataBank.sensor_data[19]) + ',' + changeNumber(myDataBank.sensor_data[20]) + '\r\n'
@@ -83,7 +81,6 @@ if __name__ == '__main__':
                 controller.writeControlValue(controlValue03)
                 time.sleep(1)
                 myDataBank.write_check = 0
-                controller.no_read = 0
                 print("보냈음")
 
 
