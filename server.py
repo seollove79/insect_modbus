@@ -44,6 +44,7 @@ class MyDataBank(DataBank):
             target_address = address + idx
             self.sensor_data.update({target_address:item})
         self.write_check = 1
+        controller.write_check = 1
         return True
     
 if __name__ == '__main__':
