@@ -12,34 +12,35 @@ class Controller():
     serial_port = None
     alivethread = True
     t = None
+    read_enable = 0
 
     def readthread(self):
         while(self.alivethread):
-            result = self.serial_port.readline()
-            if len(result)>0 :
-                valueArray = str(result).split(',')
-                if len(valueArray)>=34 :
+            if (self.read_enable == 1) :
+                result = self.serial_port.readline()
+                if len(result)>0 :
+                    valueArray = str(result).split(',')
+                    if len(valueArray)>=34 :
 
-                    #데이터에 문제가 없을때만
-                    count = 0
-                    for k in range(1,34):
-                        if valueArray[k].isdigit():
-                            count=count+1
-                    print(valueArray)
-                    print("count:" + str(count))
+                        #데이터에 문제가 없을때만
+                        count = 0
+                        for k in range(1,34):
+                            if valueArray[k].isdigit():
+                                count=count+1
+                        print(valueArray)
+                        print("count:" + str(count))
 
-                    if (count==33):
+                        if (count==33):
 
-                        for i in range(1,4) :
-                            for j in range(0,11) :
-                                if i==1 :
-                                    self.data1.update({j+10:int(valueArray[j+1])})
-                                if i==2 :
-                                    self.data2.update({j+30:int(valueArray[j+12])})
-                                if i==3 :
-                                    self.data3.update({j+50:int(valueArray[j+23])})
-
-            time.sleep(15)
+                            for i in range(1,4) :
+                                for j in range(0,11) :
+                                    if i==1 :
+                                        self.data1.update({j+10:int(valueArray[j+1])})
+                                    if i==2 :
+                                        self.data2.update({j+30:int(valueArray[j+12])})
+                                    if i==3 :
+                                        self.data3.update({j+50:int(valueArray[j+23])})
+                self.read_enable = 1
 
     def writeControlValue(self,data):
         self.serial_port.write(data.encode('utf-8'))

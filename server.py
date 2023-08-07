@@ -10,6 +10,7 @@ class MyDataBank(DataBank):
 
     sensor_data = {}
     write_check = 0
+    read_check = 0
 
     def __init__(self):
         # turn off allocation of memory for standard modbus object types
@@ -34,6 +35,7 @@ class MyDataBank(DataBank):
         # build a list of virtual regs to return to server data handler
         # return None if any of virtual registers is missing
         v_regs_d = self.sensor_data
+        self.read_check = 1
         try:
             return [v_regs_d[a] for a in range(address, address+number)]
         except KeyError:
@@ -57,6 +59,12 @@ if __name__ == '__main__':
     server = ModbusServer(host=args.host, port=args.port, data_bank=myDataBank)
     controller = Controller()
     controller.start_reading()
+
+    def read_write_check_thread():
+        if (myDataBank.read_check == 1):
+            controller.read_enable = 1
+            myDataBank.read_check = 0
+        time.sleep(1)
     
     def writethread():
         while True :
@@ -94,5 +102,7 @@ if __name__ == '__main__':
 
     t = threading.Thread(target=writethread)
     t.start()
+    t1 = threading.Thread(target=read_write_check_thread)
+    t1.start()
 
     server.start()
