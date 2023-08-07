@@ -39,7 +39,7 @@ class Controller():
                                 if i==3 :
                                     self.data3.update({j+50:int(valueArray[j+23])})
 
-            time.sleep(3)
+            time.sleep(4)
 
     def writeControlValue(self,data):
         self.serial_port.write(data.encode('utf-8'))
