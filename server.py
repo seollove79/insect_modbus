@@ -81,7 +81,7 @@ if __name__ == '__main__':
                 myDataBank.sensor_data.update(controller.data2)
                 myDataBank.sensor_data.update(controller.data3)
 
-            time.sleep(4)
+            time.sleep(3)
 
 
 
