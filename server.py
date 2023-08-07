@@ -40,10 +40,12 @@ class MyDataBank(DataBank):
             return
         
     def set_holding_registers(self, address, word_list, srv_info=None):
-        for idx,item in enumerate(word_list):
-            target_address = address + idx
-            self.sensor_data.update({target_address:item})
-        self.write_check = 1
+        for i in range(1,5) :
+            for idx,item in enumerate(word_list):
+                target_address = address + idx
+                self.sensor_data.update({target_address:item})
+            self.write_check = 1
+        time.sleep(1)
         return True
     
 if __name__ == '__main__':
