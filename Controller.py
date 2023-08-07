@@ -32,7 +32,7 @@ class Controller():
                     if (count==33):
 
                         for i in range(1,4) :
-                            for j in range(0,11) :
+                            for j in range(0,7) :
                                 if i==1 :
                                     self.data1.update({j+10:int(valueArray[j+1])})
                                 if i==2 :
