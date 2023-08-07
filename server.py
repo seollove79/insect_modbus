@@ -73,6 +73,7 @@ if __name__ == '__main__':
             controller.writeControlValue("!,0,1\r\n")
             time.sleep(3)
             if myDataBank.write_check == 1:
+                controller.write_check = 1
                 controller.writeControlValue(controlValue01)
                 time.sleep(1)
                 controller.writeControlValue(controlValue02)
@@ -80,7 +81,6 @@ if __name__ == '__main__':
                 controller.writeControlValue(controlValue03)
                 time.sleep(1)
                 myDataBank.write_check = 0
-                controller.write_check = 1
                 print("보냈음")
 
 
