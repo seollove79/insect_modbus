@@ -12,6 +12,7 @@ class Controller():
     serial_port = None
     alivethread = True
     t = None
+    write_check = 0
 
     def readthread(self):
         while(self.alivethread):
@@ -28,21 +29,24 @@ class Controller():
                     print(valueArray)
                     print("count:" + str(count))
 
-                    if (count==33):
+                    if (self.write_check == 0):
 
-                        for i in range(1,4) :
-                            for j in range(0,11) :
-                                if i==1 :
-                                    self.data1.update({j+10:int(valueArray[j+1])})
-                                if i==2 :
-                                    self.data2.update({j+30:int(valueArray[j+12])})
-                                if i==3 :
-                                    self.data3.update({j+50:int(valueArray[j+23])})
+                        if (count==33):
 
-            time.sleep(10)
+                            for i in range(1,4) :
+                                for j in range(0,11) :
+                                    if i==1 :
+                                        self.data1.update({j+10:int(valueArray[j+1])})
+                                    if i==2 :
+                                        self.data2.update({j+30:int(valueArray[j+12])})
+                                    if i==3 :
+                                        self.data3.update({j+50:int(valueArray[j+23])})
+
+            time.sleep(3)
 
     def writeControlValue(self,data):
         self.serial_port.write(data.encode('utf-8'))
+        self.write_check = 0
     
     def start_reading(self):
         self.t.start()
